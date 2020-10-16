@@ -143,6 +143,275 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-20201016_使用hexo如果换了电脑怎么更新博客" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/10/16/20201016_%E4%BD%BF%E7%94%A8hexo%E5%A6%82%E6%9E%9C%E6%8D%A2%E4%BA%86%E7%94%B5%E8%84%91%E6%80%8E%E4%B9%88%E6%9B%B4%E6%96%B0%E5%8D%9A%E5%AE%A2/">使用hexo，如果换了电脑怎么更新博客？</a>
+    </h1>
+  
+
+        
+        <a href="/2020/10/16/20201016_%E4%BD%BF%E7%94%A8hexo%E5%A6%82%E6%9E%9C%E6%8D%A2%E4%BA%86%E7%94%B5%E8%84%91%E6%80%8E%E4%B9%88%E6%9B%B4%E6%96%B0%E5%8D%9A%E5%AE%A2/" class="archive-article-date">
+  	<time datetime="2020-10-16T02:54:57.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-10-16</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h4 id="git分支进行多终端工作"><a href="#git分支进行多终端工作" class="headerlink" title="git分支进行多终端工作"></a>git分支进行多终端工作</h4><p>1）首先，先在github上新建一个hexo分支</p>
+<p>2）然后在这个仓库的settings中，选择默认分支为hexo分支</p>
+<p>3）然后在本地的任意目录下，打开git bash</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git clone git@github.com:ZJUFangzh&#x2F;ZJUFangzh.github.io.git</span><br></pre></td></tr></table></figure>
+<p>将其克隆到本地，因为默认分支已经设成了hexo，所以clone时只clone了hexo</p>
+<p>4）接下来在克隆到本地的ZJUFangzh.github.io中，把除了.git 文件夹外的所有文件都删掉</p>
+<p>5）把之前我们写的博客源文件全部复制过来，除了.deploy_git。复制过来的源文件应该有一个.gitignore，用来忽略一些不需要的文件，如果没有的话，自己新建一个，在里面写上如下，表示这些类型文件不需要git：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">.DS_Store</span><br><span class="line">Thumbs.db</span><br><span class="line">db.json</span><br><span class="line">*.log</span><br><span class="line">node_modules&#x2F;</span><br><span class="line">public&#x2F;</span><br><span class="line">.deploy*&#x2F;</span><br></pre></td></tr></table></figure>
+<p>注意，如果你之前克隆过theme中的主题文件，那么应该把主题文件中的.git文件夹删掉，因为git不能嵌套上传，最好是显示隐藏文件，检查一下有没有，否则上传的时候会出错，导致你的主题文件无法上传，这样你的配置在别的电脑上就用不了了</p>
+<p>而后</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">git add .</span><br><span class="line">git commit –m &quot;add branch&quot;</span><br><span class="line">git push</span><br></pre></td></tr></table></figure>
+<p>这样就上传完了，可以去你的github上看一看hexo分支有没有上传上去，其中node_modules、public、db.json已经被忽略掉了，没有关系，不需要上传的，因为在别的电脑上需要重新输入命令安装</p>
+<h4 id="更换电脑操作"><a href="#更换电脑操作" class="headerlink" title="更换电脑操作"></a>更换电脑操作</h4><p>1）安装git</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install git</span><br></pre></td></tr></table></figure>
+
+<p>2）设置git全局邮箱和用户名</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git config --global user.name &quot;yourgithubname&quot;</span><br><span class="line">git config --global user.email &quot;yourgithubemail&quot;</span><br></pre></td></tr></table></figure>
+
+<p>3)设置ssh key</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">ssh-keygen -t rsa -C &quot;youremail&quot;</span><br><span class="line">#生成后填到github和coding上（有coding平台的话）</span><br><span class="line">#验证是否成功</span><br><span class="line">ssh -T git@github.com</span><br><span class="line">ssh -T git@git.coding.net #(有coding平台的话)</span><br></pre></td></tr></table></figure>
+
+<p>4）安装nodejs</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install nodejs</span><br><span class="line">sudo apt-get install npm</span><br></pre></td></tr></table></figure>
+
+<p>5）安装hexo</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo npm install hexo-cli -g</span><br></pre></td></tr></table></figure>
+
+<p>6）克隆项目</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git clone git@………………</span><br></pre></td></tr></table></figure>
+
+<p>7）然后进入克隆到的文件夹</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">cd xxx.github.io</span><br><span class="line">npm install</span><br><span class="line">npm install hexo-deployer-git --save</span><br></pre></td></tr></table></figure>
+<p>生成，部署：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">hexo g</span><br><span class="line">hexo d</span><br></pre></td></tr></table></figure>
+<p>然后就可以开始写你的新博客了</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo new newpage</span><br></pre></td></tr></table></figure>
+
+<h4 id="Tips"><a href="#Tips" class="headerlink" title="Tips"></a>Tips</h4><p>1）不要忘了，每次写完最好都把源文件上传一下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">git add .</span><br><span class="line">git commit –m &quot;xxxx&quot;</span><br><span class="line">git push</span><br></pre></td></tr></table></figure>
+
+<p>2）如果是在已经编辑过的电脑上，已经有clone文件夹了，那么，每次只要和远端同步一下就行了</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git pull</span><br></pre></td></tr></table></figure>
+
+<p>3)hexo提交命令</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo clean &amp; hexo d -g</span><br></pre></td></tr></table></figure>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">centos7</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">hexo</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">node</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">git</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/hexo//" class="article-tag-list-link color5">hexo</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2020/10/16/20201016_%E4%BD%BF%E7%94%A8hexo%E5%A6%82%E6%9E%9C%E6%8D%A2%E4%BA%86%E7%94%B5%E8%84%91%E6%80%8E%E4%B9%88%E6%9B%B4%E6%96%B0%E5%8D%9A%E5%AE%A2/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-20201016_在Centos7中安装hexo基础环境" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/10/16/20201016_%E5%9C%A8Centos7%E4%B8%AD%E5%AE%89%E8%A3%85hexo%E5%9F%BA%E7%A1%80%E7%8E%AF%E5%A2%83/">在Centos7中安装hexo基础环境</a>
+    </h1>
+  
+
+        
+        <a href="/2020/10/16/20201016_%E5%9C%A8Centos7%E4%B8%AD%E5%AE%89%E8%A3%85hexo%E5%9F%BA%E7%A1%80%E7%8E%AF%E5%A2%83/" class="archive-article-date">
+  	<time datetime="2020-10-16T02:52:57.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-10-16</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h4 id="第一节：Git的安装"><a href="#第一节：Git的安装" class="headerlink" title="第一节：Git的安装"></a>第一节：Git的安装</h4><p>** 第一节：Git的安装 **</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum -y update</span><br></pre></td></tr></table></figure>
+
+<p>** 2、执行快速安装命令 **</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum install git -y</span><br></pre></td></tr></table></figure>
+
+<p>** 3、设置基础账号与邮箱 **</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git config --global user.name &quot;你的账号&quot;</span><br><span class="line">git config --global user.email &quot;你的邮箱&quot;</span><br></pre></td></tr></table></figure>
+
+<h4 id="第二节：nodejs的安装"><a href="#第二节：nodejs的安装" class="headerlink" title="第二节：nodejs的安装"></a>第二节：nodejs的安装</h4><p>** 1、安装基础编译环境 **</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum install gcc-c++</span><br></pre></td></tr></table></figure>
+
+<p>** 2、下载源码包 **</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wget https:&#x2F;&#x2F;npm.taobao.org&#x2F;mirrors&#x2F;node&#x2F;v11.0.0&#x2F;node-v11.0.0.tar.gz</span><br></pre></td></tr></table></figure>
+
+<p>** 3、解压源码包，并进入解压后的文件夹中 **</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">tar -zxf node-v11.0.0.tar.gz</span><br><span class="line">cd node-v11.0.0</span><br></pre></td></tr></table></figure>
+
+<p>** 4、开始进行编译，本次编译时间大约30分钟左右（可以去忙些别的了。。。） **</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">.&#x2F;configure &amp;&amp; make</span><br></pre></td></tr></table></figure>
+
+<p>** 5、开始进行安装 **</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">make install</span><br><span class="line">node -v</span><br><span class="line">npm -v</span><br></pre></td></tr></table></figure>
+<p>备注：如果node -v没有版本信息，可进行一下设置环境变量再进行测试</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">vim &#x2F;etc&#x2F;profile</span><br><span class="line">在该文件底部增加下面两行</span><br><span class="line">export NODE_HOME&#x3D;node目录</span><br><span class="line">export PATH&#x3D;$NODE_HOME&#x2F;bin:$PATH</span><br></pre></td></tr></table></figure>
+<p>执行命令生效环境变量后再次重新尝试获取版本信息。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">source &#x2F;etc&#x2F;profile</span><br><span class="line">node -v</span><br><span class="line">npm -v</span><br></pre></td></tr></table></figure>
+
+<h4 id="第三节：hexo的安装"><a href="#第三节：hexo的安装" class="headerlink" title="第三节：hexo的安装"></a>第三节：hexo的安装</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">npm install -g hexo-cli</span><br><span class="line">hexo -v</span><br></pre></td></tr></table></figure>
+
+<p>注：初始化后生成了一系列文件详情请参考<a target="_blank" rel="noopener" href="https://hexo.io/zh-cn/docs/setup">https://hexo.io/zh-cn/docs/setup</a></p>
+<p>注：命令参考<a target="_blank" rel="noopener" href="https://hexo.io/zh-cn/docs/commands">https://hexo.io/zh-cn/docs/commands</a></p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">centos7</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">hexo</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">node</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">git</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/hexo//" class="article-tag-list-link color5">hexo</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2020/10/16/20201016_%E5%9C%A8Centos7%E4%B8%AD%E5%AE%89%E8%A3%85hexo%E5%9F%BA%E7%A1%80%E7%8E%AF%E5%A2%83/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-20200716_《Golang语言基础》数据类型" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -931,196 +1200,6 @@
 
 
   
-    <article id="post-20200403_图片压缩Java工具类" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/04/03/20200403_%E5%9B%BE%E7%89%87%E5%8E%8B%E7%BC%A9Java%E5%B7%A5%E5%85%B7%E7%B1%BB/">图片压缩Java工具类</a>
-    </h1>
-  
-
-        
-        <a href="/2020/04/03/20200403_%E5%9B%BE%E7%89%87%E5%8E%8B%E7%BC%A9Java%E5%B7%A5%E5%85%B7%E7%B1%BB/" class="archive-article-date">
-  	<time datetime="2020-04-03T07:49:57.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-04-03</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>图片压缩Java工具类</p>
-        
-          <a class="article-more-a" href="/2020/04/03/20200403_%E5%9B%BE%E7%89%87%E5%8E%8B%E7%BC%A9Java%E5%B7%A5%E5%85%B7%E7%B1%BB/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">java</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">工具类</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/java//" class="article-tag-list-link color5">java</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/04/03/20200403_%E5%9B%BE%E7%89%87%E5%8E%8B%E7%BC%A9Java%E5%B7%A5%E5%85%B7%E7%B1%BB/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-20200330_LinuxCentos安装OpenResty" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/03/30/20200330_LinuxCentos%E5%AE%89%E8%A3%85OpenResty/">Linux Centos 安装OpenResty</a>
-    </h1>
-  
-
-        
-        <a href="/2020/03/30/20200330_LinuxCentos%E5%AE%89%E8%A3%85OpenResty/" class="archive-article-date">
-  	<time datetime="2020-03-30T07:49:57.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-03-30</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>解决新装centos7没有wget命令,yum不能使用和yum源配置</p>
-        
-          <a class="article-more-a" href="/2020/03/30/20200330_LinuxCentos%E5%AE%89%E8%A3%85OpenResty/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">centos7</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">OpenResty</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">nginx</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">运维</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/centos7//" class="article-tag-list-link color3">centos7</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/03/30/20200330_LinuxCentos%E5%AE%89%E8%A3%85OpenResty/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
       <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/2/">Next &amp;raquo;</a>
@@ -1427,6 +1506,18 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">数据类型</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">hexo</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">node</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">git</a>
               </li>
              
               <li class="article-tag-list-item">
